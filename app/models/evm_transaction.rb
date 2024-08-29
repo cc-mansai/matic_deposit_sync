@@ -1,0 +1,2 @@
+class EvmTransaction < ApplicationRecord
+end
