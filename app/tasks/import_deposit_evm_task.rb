@@ -19,7 +19,12 @@ class ImportDepositEvmTask
     uri = URI("#{NODE_URL}/#{api_key}")
     headers = { 'Content-Type' => 'application/json' }
     block_hex = "0x#{block_number.to_s(16)}"
-    # ブロック内のトランザクション数を取得
+
+    # ブロック情報のリクエスト:
+    # eth_getBlockByNumber: ブロック番号を16進数に変換してブロック情報を取得します。
+    # `params: [block_hex, true]` の true を指定すると、トランザクションの詳細が含まれるレスポンスが取得できます。
+    # 詳細は https://getblock.io/docs/matic/json-rpc/matic_eth_getblockbynumber/
+
     block_info_body = {
       jsonrpc: '2.0',
       method: 'eth_getBlockByNumber',
@@ -40,6 +45,10 @@ class ImportDepositEvmTask
       puts "No block info found for block: #{block_number}"
       return
     end
+
+    #トランザクション情報のリクエスト:
+    #eth_getTransactionByHash: 各トランザクションのハッシュを使って、その詳細情報を取得します。
+    #詳細は https://getblock.io/docs/matic/json-rpc/matic_eth_gettransactionbyhash/
 
     block_info['transactions'].each do |tx_hash|
       body = {
