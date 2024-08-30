@@ -4,14 +4,16 @@ require 'uri'
 require 'bigdecimal'
 
 class ImportDepositEvmTask
-  NODE_URL = 'https://go.getblock.io'
+  NODE_URL = 'https://go.getblock.io'.freeze
   def execute(since_block:, until_block:)
     (since_block..until_block).each do |block_number|
       puts "Fetching transactions for block number: #{block_number}"
       fetch_transactions(block_number)
     end
   end
+
   private
+  
   def fetch_transactions(block_number)
     api_key = ENV['API_KEY']
     uri = URI("#{NODE_URL}/#{api_key}")
@@ -39,20 +41,18 @@ class ImportDepositEvmTask
       return
     end
 
-    block_info['transactions'].each_with_index do |tx, index|
-      tx_index_hex = "0x#{index.to_s(16)}"
-
+    block_info['transactions'].each do |tx_hash|
       body = {
         jsonrpc: '2.0',
-        method: 'eth_getTransactionByBlockNumberAndIndex',
-        params: [block_hex, tx_index_hex],
+        method: 'eth_getTransactionByHash',
+        params: [tx_hash['hash']], # トランザクションのハッシュを直接指定
         id: 1
       }.to_json
-
+  
       response = make_request(uri, body, headers)
-
+  
       next if response.nil?
-
+  
       handle_transaction_response(response, block_number)
     end
   end

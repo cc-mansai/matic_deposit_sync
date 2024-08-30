@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2024_08_28_022617) do
     t.decimal "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["txid"], name: "index_evm_transactions_on_txid", unique: true
   end
 
 end

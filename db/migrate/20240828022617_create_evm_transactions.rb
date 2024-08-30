@@ -12,5 +12,6 @@ class CreateEvmTransactions < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+    add_index :evm_transactions, :txid, unique: true
   end
 end
