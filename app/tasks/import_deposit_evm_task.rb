@@ -34,11 +34,11 @@ class ImportDepositEvmTask
 
     response = make_request(uri, block_info_body, headers)
 
-    if response.nil? || response.code == '403'
+    if response.nil? || response.code != '200'
       puts "Error fetching block info for block: #{block_number}"
       return
     end
-
+    
     block_info = JSON.parse(response.body)['result']
 
     if block_info.nil?
