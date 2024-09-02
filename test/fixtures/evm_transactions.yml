@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  block_height: 1
+  currency: MyString
+  fee: 9.99
+  nonce: 1
+  receiver_address: MyString
+  sender_address: MyString
+  txid: MyString
+  value: 9.99
+
+two:
+  block_height: 1
+  currency: MyString
+  fee: 9.99
+  nonce: 1
+  receiver_address: MyString
+  sender_address: MyString
+  txid: MyString
+  value: 9.99
