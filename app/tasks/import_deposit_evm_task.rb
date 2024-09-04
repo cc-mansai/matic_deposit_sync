@@ -79,12 +79,12 @@ class ImportDepositEvmTask
   # Handles the transaction response
   def handle_transaction_response(response, block_number)
     result = JSON.parse(response.body)['result']
-    return unless result
+    return unless result #resulがない場合コードの実行を止める
 
     EvmTransaction.create_with(
       block_height: block_number,
       currency: 'MATIC',
-      fee: (result['gas'].to_i(16) * result['gasPrice'].to_i(16)).to_d / (10 ** 18),
+      fee: (result['gas'].to_i(16) * result['gasPrice'].to_i(16)).to_d / (10 ** 18), # (10 ** 18)はWeiの計算方法
       nonce: result['nonce'].to_i(16),
       receiver_address: result['to'],
       sender_address: result['from'],
